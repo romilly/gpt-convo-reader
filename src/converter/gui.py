@@ -49,16 +49,17 @@ class ConversationGUI:
 
     def save_function(self):
         file_name = self.app.select_file(filetypes=[['Markdown Files', '*.md']], save=True)
-        with open(file_name, 'w') as mdf:
-            mdf.write(f'# {self.selected_conversation.title}\n\n')
-            mdf.write(f'{self.selected_conversation.updated()}\n\n')
-            for message in self.selected_conversation.messages:
-                mdf.write(message.markdown())
-                mdf.write('\n\n')
+        if len(file_name) > 0:
+            with open(file_name, 'w') as mdf:
+                mdf.write(f'# {self.selected_conversation.title}\n\n')
+                mdf.write(f'{self.selected_conversation.updated()}\n\n')
+                for message in self.selected_conversation.messages:
+                    mdf.write(message.markdown())
+                    mdf.write('\n\n')
 
 
 
 
-ZIP_FILE_NAME = 'sample.zip'
+ZIP_FILE_NAME = '../../data/sample.zip'
 
 gui = ConversationGUI(convert(ZIP_FILE_NAME))
