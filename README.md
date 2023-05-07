@@ -4,7 +4,7 @@ The reader lets you find, view and format the conversations you've had with Chat
 
 It does so by reading the zip file that ChatGPT saves when you ask it to dump your data.
 
-**Please note:** this is an independently developed project, and it ha no official connection with ChatGPT or OpenAI.
+**Please note:** this is an independently developed project, and it has no official connection with ChatGPT or OpenAI.
 
 It will read, list and display the conversations from a ChatGPT dump file:
 
