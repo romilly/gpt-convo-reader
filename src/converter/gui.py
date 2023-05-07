@@ -3,17 +3,15 @@ from converter.convert import convert, Conversation
 
 
 class ConversationGUI:
-    def __init__(self, conversations: dict[str, Conversation]):
-        self.conversations = conversations
+    def __init__(self):
+        self.conversations = {}
         self.selected_conversation = None
         self.app = App(title="Conversations")
-
-
 
         menubar = MenuBar(self.app,
                           toplevel=["File"],
                           options=[
-                              [["Save", self.save_function]],
+                              [["Open", self.open_function],["Save", self.save_function]],
                           ])
 
         # Create a Box to contain the ListBox and TextBox
@@ -22,9 +20,6 @@ class ConversationGUI:
         # Create a ListBox to display the conversation titles
         self.conversation_list = ListBox(self.conversation_box, command=self.show_conversation, width = 'fill')
 
-        # Add the conversation titles to the ListBox
-        for title in self.conversations:
-            self.conversation_list.append(title)
 
         # Create a TextBox to display the conversation messages
         self.conversation_text = TextBox(self.conversation_box, multiline=True, scrollbar=True, width= 'fill', height='fill')
@@ -47,6 +42,15 @@ class ConversationGUI:
         for message in self.selected_conversation.messages:
             self.conversation_text.append(str(message))
 
+    def open_function(self):
+        file_name = self.app.select_file(filetypes=[['zip files', '*.zip']])
+        if len(file_name) > 0:
+            self.conversations = convert(file_name)
+            # Add the conversation titles to the ListBox
+            for title in self.conversations:
+                self.conversation_list.append(title)
+
+
     def save_function(self):
         file_name = self.app.select_file(filetypes=[['Markdown Files', '*.md']], save=True)
         if len(file_name) > 0:
@@ -58,8 +62,4 @@ class ConversationGUI:
                     mdf.write('\n\n')
 
 
-
-
-ZIP_FILE_NAME = '../../data/sample.zip'
-
-gui = ConversationGUI(convert(ZIP_FILE_NAME))
+gui = ConversationGUI()
