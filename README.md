@@ -10,22 +10,31 @@ It will read, list and display the conversations from a ChatGPT dump file:
 
 ![Gui](docs/img/gui.png)
 
-You can use it to save a conversation as a nicely formatted Markdown document:
+You can use it to save a conversation as a nicely formatted Markdown document.
+
+_Here's one I prepared earlier._
 
 ![Markdown](docs/img/markdown.png)
 
 ## Installation
 
-1. Clone this repository into a directory of your choice.
-2. Run `pip install -r requirements.txt`
-3. If necessary, edit the `convert.ini` file to specify the default directory to search for the dumped zip file and the
-   default directory in which to save exported markdown files.
+run `pip install gpt-convo-reader`
 
 ## Usage
 
-1. In the `src/converter` directory, run `python3 gui.py`
-2. From the file menu, open the dumped zip file you want to examine.
-3. Select the conversation you want to examine from the list of titles.
+1. In the directory from which you wish to run the reader, create a file `convert.ini` file with the following format:
+
+   ```text
+   [default directory locations]
+   zip directory = foo
+   save directory = bar
+   ```
+   
+   where `foo` is the relative path to the directory in which the dumped zip file is located, and `bar`
+   is the default directory into which you will save markdown files.
+1. In your chosen directory, run `gpt_reader_gui`
+2. From the `File\Open` menu, open the dumped zip file you want to examine. A list of title will be displayed.
+3. Select a conversation you want to examine from the list of titles.
 4. If you want to export a conversation as a neatly formatted markdown file, you can do so from the `File\Save` menu.
 
 ## How to contribute
@@ -34,10 +43,8 @@ Please raise any issues (bugs or feature requests) on GitHub.
 
 ## Contact details
 
-I'm Romilly Cocking:
-   @RAREblog on twitter
-   @romilly@fosstodon.org
-   romilly.cocking on skype
+I'm Romilly Cocking: @RAREblog on twitter, @romilly@fosstodon.org
+
 
 
 

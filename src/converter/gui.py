@@ -4,7 +4,7 @@
 from configparser import ConfigParser
 from guizero import App, ListBox, TextBox, TitleBox, MenuBar
 
-from convert import convert
+from converter.convert import convert
 
 
 class ConversationGUI(App):
