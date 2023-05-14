@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+import os.path
 from configparser import ConfigParser
 from guizero import App, ListBox, TextBox, TitleBox, MenuBar
 
 from converter.convert import convert
 
-
+# TODO: add ROADMAP, version history to updated README
 class ConversationGUI(App):
     def __init__(self):
         super().__init__(title='ChatGPT Conversation Reader', height=800, width=1400)
@@ -27,10 +27,16 @@ class ConversationGUI(App):
 
     def get_default_directories(self):
         config = ConfigParser()
-        config.read('convert.ini')
-        zip_folder = config['default directory locations']['zip directory']
-        save_folder = config['default directory locations']['save directory']
+        if os.path.exists('convert.ini'):
+            config.read('convert.ini')
+            zip_folder = config['default directory locations']['zip directory']
+            save_folder = config['default directory locations']['save directory']
+        else:
+            zip_folder = '.'
+            save_folder = '.'
+            print('using current directory as default')
         return zip_folder, save_folder
+
 
     def show_conversation(self):
         # Get the selected conversation from the ListBox
