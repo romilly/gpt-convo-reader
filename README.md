@@ -22,6 +22,8 @@ run `pip install gpt-convo-reader`
 
 ## Usage
 
+TODO: Update
+
 1. In the directory from which you wish to run the reader, create a file `convert.ini` file with the following format:
 
    ```text
