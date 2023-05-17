@@ -96,7 +96,6 @@ class ConversationGUI(App):
         safe_title = replace_spaces_and_remove_special_chars(self.selected_conversation.title)
         file_name = f'gpt%2F{safe_title}.md'
         file_path = os.path.join(self.configuration.save_directory, file_name)
-        print(f'saving {file_path}')
         with open(file_path, 'w') as mdf:
             mdf.write(f'# {self.selected_conversation.title}\n\n')
             mdf.write(f'{self.selected_conversation.updated()}\n\n')
