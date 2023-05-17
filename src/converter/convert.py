@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+import os
 import zipfile
 import json
 import datetime
@@ -70,3 +70,14 @@ def convert(zip_file_name: Path) -> Dict[str, Conversation]:
         convo= conversation(item)
         result[convo.title] = convo
     return result
+
+def convert_all(directory: str, prefix: str) -> Dict[str, Conversation]:
+    result = {}
+    for name in os.listdir(directory):
+        if name.startswith(prefix) and name.endswith('.zip'):
+            pathname = os.path.join(directory, name)
+            print(pathname)
+            result |= convert(pathname)
+    return result
+
+

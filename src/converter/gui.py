@@ -1,22 +1,31 @@
 #!/usr/bin/env python
 # coding: utf-8
+import time
+
 import os.path
 from configparser import ConfigParser
 from guizero import App, ListBox, TextBox, TitleBox, MenuBar, PushButton
 
-from converter.convert import convert
+from converter import config
+from converter.config import Configuration
+from converter.convert import convert, convert_all
 
-# TODO: add ROADMAP, version history to updated README
+
 class ConversationGUI(App):
-    def __init__(self):
+    def __init__(self, testing=False):
         super().__init__(title='ChatGPT Conversation Reader', height=800, width=1400)
-        self.zip_folder, self.save_folder = self.get_default_directories()
+        if testing:
+            self.configuration = Configuration()
+        else:
+            self.configuration = config.get_configuration()
         self.conversations = {}
         self.selected_conversation = None
         menubar = MenuBar(self,
                           toplevel=["File"],
                           options=[
-                              [["Open", self.open_function],["Save", self.save_function]],
+                              [["Open", self.open_function],
+                               ['Load all', self.load_all],
+                               ["Save", self.save_function]],
                           ])
         # Create a Box to contain the ListBox and TextBox
         self.conversation_box = TitleBox(self, 'Conversations', width='fill')
@@ -39,18 +48,6 @@ class ConversationGUI(App):
                 if wanted in message.text():
                     self.conversation_list.append(title)
                     break
-    def get_default_directories(self):
-        config = ConfigParser()
-        if os.path.exists('convert.ini'):
-            config.read('convert.ini')
-            zip_folder = config['default directory locations']['zip directory']
-            save_folder = config['default directory locations']['save directory']
-        else:
-            zip_folder = '.'
-            save_folder = '.'
-            print('using current directory as default')
-        return zip_folder, save_folder
-
 
     def show_conversation(self):
         # Get the selected conversation from the ListBox
@@ -66,19 +63,25 @@ class ConversationGUI(App):
 
     def open_function(self):
         file_name = self.select_file(filetypes=[['zip files', '*.zip']],
-                                     folder=self.zip_folder)
+                                     folder=self.configuration.zip_directory)
         if len(file_name) > 0:
             self.conversations = convert(file_name)
             # Add the conversation titles to the ListBox
             self.show_full_convo_list()
+
+    def load_all(self):
+        self.conversations = convert_all(self.configuration.zip_directory, self.configuration.prefix)
+        self.show_full_convo_list()
 
     def show_full_convo_list(self):
         for title in self.conversations:
             self.conversation_list.append(title)
 
     def save_function(self):
+        print(f'saving into {self.configuration.save_directory}')
+        time.sleep(0.1)
         file_name = self.select_file(filetypes=[['Markdown Files', '*.md']], save=True,
-                                     folder=self.save_folder)
+                                     folder=self.configuration.save_directory)
         if len(file_name) > 0:
             with open(file_name, 'w') as mdf:
                 mdf.write(f'# {self.selected_conversation.title}\n\n')

@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gpt-convo-reader",
-    version="0.1.2",
+    version="0.2",
     author="Romilly Cocking",
     author_email="romilly.cocking@gmail.com",
     description="Lets you find, view and format the conversations you've had with ChatGPT in the playground.",
