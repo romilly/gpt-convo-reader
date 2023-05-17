@@ -46,7 +46,7 @@ Typical user config directories are:
 2. From the `File/Open` menu, open the dumped zip file you want to examine. A list of title will be displayed.
 5. If you want to load all the files that OpenAI has dumped, select te `File/Load All` option.
 3. Select a conversation you want to examine from the list of titles.
-4. If you want to export a conversation as a neatly formatted markdown file, you can do so from the `File/Save` menu.
+4. If you want to export a conversation as a neatly formatted markdown file, you can do so from the `File/Save` menu. It now saves a markdown file to save directory as convo title with prefix gpt%2F.
 
 If you are only interested in converations containing a given string, type the string in the entry field by the search buton and press `Search`.
 

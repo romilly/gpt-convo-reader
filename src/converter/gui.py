@@ -10,6 +10,18 @@ from converter import config
 from converter.config import Configuration
 from converter.convert import convert, convert_all
 
+import re
+
+
+def replace_spaces_and_remove_special_chars(string):
+    # Replace spaces with minus signs
+    string = string.replace(" ", "-")
+
+    # Remove special characters
+    string = re.sub(r"[^\w-]", "", string)
+
+    return string
+
 
 class ConversationGUI(App):
     def __init__(self, testing=False):
@@ -78,16 +90,19 @@ class ConversationGUI(App):
             self.conversation_list.append(title)
 
     def save_function(self):
-        time.sleep(0.1)
-        file_name = self.select_file(filetypes=[['Markdown Files', '*.md']], save=True,
-                                     folder=self.configuration.save_directory)
-        if len(file_name) > 0:
-            with open(file_name, 'w') as mdf:
-                mdf.write(f'# {self.selected_conversation.title}\n\n')
-                mdf.write(f'{self.selected_conversation.updated()}\n\n')
-                for message in self.selected_conversation.messages:
-                    mdf.write(message.markdown())
-                    mdf.write('\n\n')
+
+        # file_name = self.select_file(filetypes=(), save=True,
+        #                              folder=self.configuration.save_directory)
+        safe_title = replace_spaces_and_remove_special_chars(self.selected_conversation.title)
+        file_name = f'gpt%2F{safe_title}.md'
+        file_path = os.path.join(self.configuration.save_directory, file_name)
+        print(f'saving {file_path}')
+        with open(file_path, 'w') as mdf:
+            mdf.write(f'# {self.selected_conversation.title}\n\n')
+            mdf.write(f'{self.selected_conversation.updated()}\n\n')
+            for message in self.selected_conversation.messages:
+                mdf.write(message.markdown())
+                mdf.write('\n\n')
 
 
 if __name__ == "__main__":
