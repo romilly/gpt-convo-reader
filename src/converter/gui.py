@@ -2,7 +2,7 @@
 # coding: utf-8
 import os.path
 from configparser import ConfigParser
-from guizero import App, ListBox, TextBox, TitleBox, MenuBar
+from guizero import App, ListBox, TextBox, TitleBox, MenuBar, PushButton
 
 from converter.convert import convert
 
@@ -22,9 +22,23 @@ class ConversationGUI(App):
         self.conversation_box = TitleBox(self, 'Conversations', width='fill')
         # Create a ListBox to display the conversation titles
         self.conversation_list = ListBox(self.conversation_box, command=self.show_conversation, width = 'fill')
+        self.search_box = TitleBox(self.conversation_box,'Search', width='fill')
+        self.search_button= PushButton(self.search_box, text='Search', command=self.filter_convos, align='left')
+        self.search_field = TextBox(self.search_box, width='fill', align='left')
         # Create a TextBox to display the conversation messages
         self.conversation_text = TextBox(self.conversation_box, multiline=True, scrollbar=True, width= 'fill', height='fill')
 
+    def filter_convos(self):
+        self.conversation_list.clear()
+        wanted = self.search_field.value.strip()
+        if len(wanted) == 0:
+            self.show_full_convo_list()
+            return
+        for title in self.conversations:
+            for message in self.conversations[title].messages:
+                if wanted in message.text():
+                    self.conversation_list.append(title)
+                    break
     def get_default_directories(self):
         config = ConfigParser()
         if os.path.exists('convert.ini'):
@@ -56,8 +70,11 @@ class ConversationGUI(App):
         if len(file_name) > 0:
             self.conversations = convert(file_name)
             # Add the conversation titles to the ListBox
-            for title in self.conversations:
-                self.conversation_list.append(title)
+            self.show_full_convo_list()
+
+    def show_full_convo_list(self):
+        for title in self.conversations:
+            self.conversation_list.append(title)
 
     def save_function(self):
         file_name = self.select_file(filetypes=[['Markdown Files', '*.md']], save=True,
