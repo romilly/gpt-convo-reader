@@ -25,6 +25,7 @@ setup(
     python_requires=">=3.10",
     install_requires=[
         "guizero >= 1.4.0",
+        "appdirs"
     ],
     entry_points={
         "console_scripts": [
