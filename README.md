@@ -34,14 +34,12 @@ Typical user config directories are:
 
 1. Create a directory gpt-convo directory in your config direectoy
 2. Create a file `convert.ini` file with the following format:
-
    ```text
    [default directory locations]
    zip directory = foo
    save directory = bar
    prefix = xhxhazhdsxhnxznsds
    ```
-   
    where `foo` is the relative path to the directory in which OpenAI'a dumped zip file is located, `bar`
    is the default directory into which you will save markdown files, and prefix is set to the prefix that OpenAI adds to the start of the zip files it creates for you.
 1. In your chosen directory, run `gpt_reader_gui`
@@ -50,6 +48,11 @@ Typical user config directories are:
 3. Select a conversation you want to examine from the list of titles.
 4. If you want to export a conversation as a neatly formatted markdown file, you can do so from the `File/Save` menu.
 
+If you are only interested in converations containing a given string, type the string in the entry field by the search buton and press `Search`.
+
+The list will show only those converastions that contain that string.
+
+If you want to see all the conversations again, delete the search string and press `Search The full list of converations will be displayed.`
 ## How to contribute
 
 Please raise any issues (bugs or feature requests) on GitHub.
