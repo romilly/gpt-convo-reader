@@ -76,7 +76,6 @@ def convert_all(directory: str, prefix: str) -> Dict[str, Conversation]:
     for name in os.listdir(directory):
         if name.startswith(prefix) and name.endswith('.zip'):
             pathname = os.path.join(directory, name)
-            print(pathname)
             result |= convert(pathname)
     return result
 

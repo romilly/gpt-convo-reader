@@ -78,7 +78,6 @@ class ConversationGUI(App):
             self.conversation_list.append(title)
 
     def save_function(self):
-        print(f'saving into {self.configuration.save_directory}')
         time.sleep(0.1)
         file_name = self.select_file(filetypes=[['Markdown Files', '*.md']], save=True,
                                      folder=self.configuration.save_directory)
