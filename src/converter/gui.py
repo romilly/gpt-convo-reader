@@ -78,11 +78,13 @@ class ConversationGUI(App):
                                      folder=self.configuration.zip_directory)
         if len(file_name) > 0:
             self.conversations = convert(file_name)
+            self.sort_conversations()
             # Add the conversation titles to the ListBox
             self.show_full_convo_list()
 
     def load_all(self):
         self.conversations = convert_all(self.configuration.zip_directory, self.configuration.prefix)
+        self.sort_conversations()
         self.show_full_convo_list()
 
     def show_full_convo_list(self):
@@ -102,6 +104,9 @@ class ConversationGUI(App):
             for message in self.selected_conversation.messages:
                 mdf.write(message.markdown())
                 mdf.write('\n\n')
+
+    def sort_conversations(self):
+        self.conversations = dict(sorted(self.conversations.items()))
 
 
 if __name__ == "__main__":

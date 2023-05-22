@@ -35,7 +35,11 @@ class Message:
     def from_json_dict(cls, json_dict: Dict[str, Any]) -> 'Message':
         author = json_dict['author']
         role = author['role']
-        parts = json_dict['content']['parts']
+        content = json_dict['content']
+        if 'parts' in content:
+            parts = content['parts']
+        else:
+            parts = []
         return cls(role=role, contents=parts)
 
 
